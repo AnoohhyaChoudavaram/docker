@@ -1,0 +1,44 @@
+curl -sSL https://get.docker.com/ | sh 
+
+sudo usermod -aG docker ubuntu
+=====================================================
+1.[docker network]
+DOCKER NETWORK CREATION
+---------------------------------------
+docker network create new_network
+docker network ls
+docker ps
+docker run -d -p 8083:80 --net="new_network" --name container1 redis
+docker run -d -p 8084:80 --net="new_network" --name container2 redis
+docker network ls
+[winpty] docker exec -it 76bb8eee7912 //bin//sh 
+ping container1
+apt-get update
+apt-get install iputils-ping
+===================================================
+2.[docker volume]
+$ sudo docker volume ls
+$ sudo docker volume create volume1
+$ sudo docker volume inspect volume1
+$ sudo docker run -it -v volume1:/shared-volume --name my-container-01 ubuntu
+$ docker exec -it [container_id]
+$ ls
+$ cd /shared-volume
+$ echo “hello” > data.txt
+$ ls
+$ exit
+$ sudo docker run -it -v volume1:/shared-volume --name my-container-02 ubuntu
+$ cd /shared-volume
+$ ls
+$ cat data.txt
+===================================
+3.[creating a image from container]
+$ docker login
+$ docker ps
+$ docker commit mongo-docker mongod
+$ docker images
+$ dokcer tag mongod:latest anoohhya/mongod:latest
+$ docker push anoohhya/mongod:latest
+================================================
+cron jobs for 1 minute --email, date,user details,github 
+>5 files in learnig in alocation ,script deletes a file learning 

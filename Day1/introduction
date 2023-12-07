@@ -1,0 +1,89 @@
+We isolate services:
+
+To host our apps we need infrastructure [interfear with each other]
+    we setup on different os
+We use VM's/Cloud Computing to setup infra
+We isolate our service in OS of VM
+Because of Isolation we end up setting up multiple VM's/Instances
+VM's/Instances will be overprovisioned.
+Results in High CapEx and OpEx
+
+VM's are expensive:
+
+Every VM has OS
+OS need nurturing
+OS needs Licensing
+OS takes time to boot
+VM's are Portble but Bulky
+VM needs Resources for its OS
+All this to isolate services.
+
+Point to be Noted:
+
+Isolating services are IMP (Need OS)
+High availability achieved by multiple instances/vm's
+Portablity Matters or Eases the Deployment
+All this raises CapEx and OpEx
+
+------------------------------
+Isolation without OS?
+Imagine Multiple Services running same OS but isolated.
+
+Containers:
+process running in a Directory.
+-> isolated in a directory
+
+Container:
+A Process[isolated]
+A Directory[Namespace, cgroup]
+Necessary bin/lib in the Directory
+A directory with IP address to connect.
+
+-> Containers share the machine's OS system kernel and therefore do not require an OS per application.
+-> A container is a standard unit of software that packages up 
+    - Code
+    - Dependencies
+
+VM vs Container:
+
+- Containers offer Isolation not Virtualization
+- Containers are OS virtualization
+- VM's are Hardware virtualization
+- VM needs OS
+- Containers don't need OS
+- Containers uses Host OS for Compute Resource
+
+-----------------------------
+Docker:
+manages our container -> container runtime environment , by using docker engine
+
+Docker History:
+- Formerly known as DotCloud Inc
+- Into PAAS Business
+- Used LXC (Linux Containers)
+- Saved CapEx by using Containers instead of VM's
+- Developed TOOLS to manage conatiners
+- Business Failed
+- Made their tools OpenSource project knows as Docker
+- Got Funding
+- Changed name to Docker Inc
+
+--------------------
+So what's Docker?
+- Docker Inc
+- Docker Engine
+- Docker Project(OpenSource)
+
+Docker Containers:
+
+Docker containers that run on Docker Engine:
+- Standard: Docker created the industry standard for containers, so they could be portable anywhere
+- Lightweight: Containers share the machine's OS system kernel and therefore do not require an OS per application, driving higher server efficiencies and reducing server and licensing costs.
+- secure: applications are safer in containers and docker provides the strongest default isolation capabilities in the industry.
+
+Docker Insatllation:
+
+- Linux or Windows
+- Windows Containers runs on Windows OS
+- Linux Containers runs on Linux OS
+

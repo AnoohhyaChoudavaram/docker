@@ -1,0 +1,104 @@
+Docker Hub:
+Registry for Docker Images
+
+Docker Image:
+- A stopped Container like a vm image.
+- Consist of multiple layers.
+- An app will be bundled in an image.
+- Containers runs from Images
+- Images are called as repositories in registries.
+
+> Images become Containers when they run on Docker Engine.
+
+------------------------
+Docker registries:
+ 
+- Storage for Docker Images.
+- DockerHub is default Registry
+- Cloud based registries:
+    - DockerHub
+    - GCR (Google Container Registry)
+    - Amazon ECR
+- Inhouse or Local registries:
+    - Nexus 3 +
+    - Jfrog Artifactory
+    - DTR (Docker trusted Registry)
+
+Creating Container:
+# docker run
+
+---------------------------------
+Docker commands:
+# docker images -> Lists images locally
+# docker run -> command creates a new Container.
+# docker ps -> lists running Container
+# docker ps -a -> Lists all the Containers
+# docker exec -> executes commands on containers.
+# docker start/restart/rm
+# docker rmi -> Remove docker images
+# docker inspect -> Detail of container & image
+
+====================-===========
+pulling docker image from the docker hub, by default it takes latest image
+    docker pull nginx
+pulling docker image from docker hub witha specific tag/ version
+    docker pull nginx:mainline-alpine-perl
+----------------------
+creating a container:
+-> -d(detach mode) for running container foregroud, by default it runs on the shell
+-> port {host port: container port} -> by default it is in private port to access it we need to mention the host port. And nginx runs on the port 80.
+-> this is called host porting or host mapping.
+    docker run --name myweb -p 7090:80 -d nginx
+-> to view or list the containers
+    docker ps
+-> to stop the running container    
+    docker stop <container id/ name>
+-> to start the container
+    docker start <container id or name>
+------------------------------------------------------------------
+in the ubuntu OS 
+ps -ef {process id of the container}
+sudo -i
+cd /var/lib/docker/
+ls
+cd Containers
+ls
+cd <container id>
+ls
+{which has the Details of the container}
+----------------
+
+-> to check the size of the container directory
+    du -sh <container id>
+-------------------------------------------------------------
+cd ..
+[cd /var/lib/docker/]
+ls image/
+ls image/overlay2/
+------------------------------------------------------
+-> to view directory structure inside the Container
+    docker exec myweb ls /
+-> to connect to the shell of the container, inside the container
+-> here i -> interactive, t ->tty
+    docker exec -it myweb /bin/bash
+# inside the container:
+    apt update
+    # this is not recomended
+    apt install procps -y
+    # shows the process of the container only
+    ps -ef
+    # if we enter exit inside the container it will exit from the bin/bash process
+    exit
+------------------------------------------
+-> list the docker images
+     docker images
+-> removing the docker image
+    docker rmi <image name/ id>
+-> before removing the image we need to remove the container,
+   by stopping the container and remove. Because we cannot remove a running container. 
+    docker stop <container name>
+    docker rm <container name>
+
+
+
+

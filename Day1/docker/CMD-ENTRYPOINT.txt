@@ -1,0 +1,41 @@
+There can only be one CMD instruction in a Dockerfile. If you list more than one CMD then only the last CMD will take effect.
+
+The main purpose of a CMD is to provide defaults for an executing container. These defaults can include an executable, or they can omit the executable, in which case you must specify an ENTRYPOINT instruction as well.
+
+
+
+
+FROM ubuntu:latest
+RUN apt-get update 
+RUN apt-get install -y apache2-utils
+RUN rm -rf /var/lib/apt/lists/*
+CMD ab
+
+docker build -t myimage .
+
+docker run myimage
+
+docker run myimage ab http://bencane.com/
+
+When we add ab http://bencane.com to the end of our docker run command, we are able to override the CMD instruction and execute the ab command successfully. However, while we were successful, this process of overriding the CMD instruction is rather clunky.
+
+ENTRYPOINT
+This is where the ENTRYPOINT instruction shines. The ENTRYPOINT instruction works very similarly to CMD in that it is used to specify the command executed when the container is started. However, where it differs is that ENTRYPOINT doesn't allow you to override the command.
+
+Instead, anything added to the end of the docker run command is appended to the command. To understand this better, let's go ahead and change our CMD instruction to the ENTRYPOINT instruction.
+
+
+FROM ubuntu:latest
+RUN apt-get update
+RUN apt-get install -y apache2-utils
+RUN rm -rf /var/lib/apt/lists/*
+ENTRYPOINT ["ab"]
+
+$ docker build -t myimage1 .
+
+
+Now, we can run the ab container once again; however, this time, rather than specifying ab http://bencane.com, we can simply add http://bencane.com to the end of the docker run command.
+
+$ docker run myimage1 http://bencane.com/
+
+As the above example shows, we have now essentially turned our container into an executable. If we wanted, we could add additional flags to the ENTRYPOINT instruction to simplify a complex command-line tool into a single-argument Docker container.

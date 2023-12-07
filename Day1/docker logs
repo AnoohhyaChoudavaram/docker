@@ -1,0 +1,16 @@
+    docker pull nginx
+    docker images
+-> Detail information about docker image
+    docker inspect <docker image name>
+> meta data of the docker image in json format
+
+
+-> give the docker logs with conatiner name
+    docker logs <conatiner name/id>
+-> creating a container with automatic port mapping
+    docker run -d -P nginx
+-> detail information about the container, shows the error why container is exited, or any other error in the running container.
+    docker logs <container name>
+-> to set a variable in the container we use {-e}
+    docker run -d -P -e MYSQL_ROOT_PASSWORD-mypass mysql:5.7
+    

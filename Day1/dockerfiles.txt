@@ -1,0 +1,122 @@
+curl -sSL https://get.docker.com/ | sh 
+
+sudo usermod -aG docker ubuntu
+
+==================================================================
+1. [mysql]
+FROM mysql:latest
+ENV MYSQL_ROOT_PASSWORD 123
+ENV MYSQL_DATABASE users
+ENV MYSQL_USER aminos
+ENV MYSQL_PASSWORD 1234
+ADD script.sql /docker-entrypoint-initdb.d
+EXPOSE 3306
+=========================================================
+2.[sql script]
+create table users (user_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, name TEXT, phone_number TEXT);
+insert into users (name,phone_number) values ('abc' '+91 234567');
+insert into users (name,phone_number) values ('bcd' '+91 236767');
+insert into users (name,phone_number) values ('fgc' '+91 235667');
+insert into users (name,phone_number) values ('ahc' '+91 684567');
+==========================================================
+---------------------------------------------------------------------
+3.
+FROM node:16
+WORKDIR /node
+RUN npm install -g npm
+COPY . .
+EXPOSE 8080
+CMD [ "node" ]
+=================================================================
+4.[docker network]
+DOCKER NETWORK CREATION
+---------------------------------------
+docker network create new_network
+docker network ls
+docker ps
+docker run -d -p 8083:80 --net="new_network" --name container1 redis
+docker run -d -p 8084:80 --net="new_network" --name container2 redis
+docker network ls
+[winpty] docker exec -it 76bb8eee7912 //bin//sh 
+ping container1
+apt-get update
+apt-get install iputils-ping
+=================================================================
+5.[mysql]
+$ sudo docker pull mysql/mysql-server:latest
+$ sudo docker images
+==>deploy and start the mysql container
+$ sudo docker run --name=[container_name] -d [image_tag_name]
+$ sudo docker run --name=[container_name] -d mysql/mysql-server:latest
+$ sudo docker ps
+==>Connect with the docker mysql containers
+$ apt-get install mysql-client
+$ sudo docker logs [container_name]
+$ sudo docker logs mysql_docker
+<H8+12&BP_E0vaGZ?O6+.8@*Zd2D6zTnk>
+$ sudo docker exec -it [container_name] bash
+$ sudo docker -it mysql_docker bash
+$ mysql> ALTER USER 'root'@'localhost' IDENTIFIED BY '[newpassword]';
+======================================================================
+6.[docker volume]
+$ sudo docker volume ls
+$ sudo docker volume create geeksforgeeks
+$ sudo docker volume inspect geeksforgeeks
+$ sudo docker run -it -v geeksforgeeks:/shared-volume --name my-container-01 ubuntu
+$ docker exec -it [container_id]
+$ ls
+$ cd /shared-volume
+$ echo “GeeksforGeeks” > geeksforgeeks.txt
+$ ls
+$ exit
+$ sudo docker run -it -v geeksforgeeks:/shared-volume --name my-container-02 ubuntu
+$ cd /shared-volume
+$ ls
+$ cat geeksforgeeks.txt
+======================================================================
+7.[creating a image from container]
+$ docker login
+$ docker ps
+$ docker commit mongo-docker mongod
+$ docker images
+$ dokcer tag mongod:latest anoohhya/mongod:latest
+$ docker push anoohhya/mongod:latest
+=================================================================== 
+8.[push to git hub]
+$ git init
+$ cd sql
+$ ls
+$ git add Dockerfile
+$ git commit -m "Dockerfile added"
+$ git remote add origin https://github.com/AnoohhyaChoudavaram/Docker.git
+$ git push -u origin master
+=================================================================
+9. [mongodb]
+$ dokcer run -d --name mongdb -p 27017:27017 -v mongo_db:/data/db mongo:latest
+or
+$ docker pull mongodb
+$ docker run -d -p 27017:27017 --name mongod mongodb
+$ docker ps
+$ docker exec -it [container_id] /bin/bash
+$ mongo
+>show dbs
+> show databases
+>use mongodb
+>show dbs
+>show collections
+>db.createCollection("newcollection")
+>show collection
+>show dbs
+==============================================
+
+
+
+FROM ubuntu
+MAINTAINER anoohhya<anoohhya@gmail.com>
+RUN apt-get update && apt-get install -y mysql-server
+RUN apt-get install -y mysql-client-core-8.0
+ENV MYSQL_ROOT_PASSWORD 123
+EXPOSE 9080
+=================================
+ container2
+ zen_elion

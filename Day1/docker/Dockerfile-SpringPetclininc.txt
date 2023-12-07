@@ -1,0 +1,54 @@
+git clone -b wavefront https://github.com/spring-projects/spring-petclinic.git
+
+cd spring-petclinic
+
+mvn package
+
+copy the spring-petclinic-2.4.0.BUILD-SNAPSHOT.jar from target folder to downloads folder
+
+scp -i "MyNCKeys.pem" spring-petclinic-2.4.0.BUILD-SNAPSHOT.jar ubuntu@ec2-54-193-19-125.us-west-1.compute.amazonaws.com:/home/ubuntu
+
+Create Dockerfile in Ubuntu server
+
+FROM openjdk:8
+LABEL maintainer="Srinivas <skatta3@yahoo.com>" \
+      version="1.0"
+ADD spring-petclinic-2.4.0.BUILD-SNAPSHOT.jar .
+EXPOSE 8080
+CMD ["java", "-jar", "spring-petclinic-2.4.0.BUILD-SNAPSHOT.jar"]
+
+docker build -t spc .
+
+docker run -d -p 8080:8080 spc
+
+http://PublicIP:8080
+
+https://bucket1-gg.s3.amazonaws.com/spring-petclinic-2.4.0.BUILD-SNAPSHOT.jar
+
+
+
+
+Dockerfile
+
+docker build -t image .
+
+Dockerfile1 mydocker
+
+docker build -t myimage -f mydocker .
+
+
+docker-compose.yaml
+
+docker-compose up
+
+docker-volume.yaml
+
+docker-compose -f docker-volume.yaml up
+
+
+
+
+
+
+
+
