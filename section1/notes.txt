@@ -127,8 +127,104 @@ Running an Apache webserver with docker.
 
 Running multi-container applications:
 
-1.) Running a mySQL Database container
+1.) Running a mySQL Database container:
+
+> docker run -d --name mydb -p 3306:3306 -e MYSQL_ROOT_PASSWORD=pass mysql
+> docker exec -it mydb /bin/bash
+># mysql -u root -p
+> mysql> show databases;
+> mysql> create database db1;
+
+
 2.) Running mySQL and Apache with docker-compose.
+------myapp.yaml------
+
+version: '3.8'
+services:
+  mywebserver:
+    image: httpd
+    ports:
+      - 80:80
+  mydb:
+    image: mysql
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=Pass123!
+
+
+> docker-compose -f myapp.yaml up -d
+> docker-compose -f myapp.yaml down
+
+--------------------------------------------------------------------------------------------------------------
+
+Building our own image using Dockerfile:
+
+1.) What is a Dockerfile?
+
+FROM --> Defines the base image to use and start the build process.
+RUN --> It takes the command and its arguments to run it from the image.
+COPY --> Copies files from host to container.
+ENV --> Sets environment variables.
+
+2.) Building our own image
+
+#set the base image to ubuntu
+from ubuntu
+
+# update the repos sources
+run apt-get update
+
+# install apache
+run apt-get install -y apache2
+
+# install vim editor
+run apt-get install -y vim
+
+# create a backup directory
+run mkdir -p /home/backup
+
+# copy some files from host
+copy backup.disk /home/backup
+
+> docker build -t mywebimage .
+> docker run -it mywebimage
+
+--------------------------------------------------------------------------------------------------------------
+
+Persisting data with docker volumes?
+
+1.) Why do we need Docker Volumes?
+
+> docker run -it --name cool_ubuntu mywebimage
+># echo "Hello">hello.txt
+># cat hello.txt
+Hello
+># exit
+> docker container rm -f cool_ubuntu
+> docker run -it --name cool_ubuntu mywebimage
+># cat hello.txt
+
+2.) Creating Docker named volumes
+-> we will persist data and not to lose data by creating docker named volumes.
+-> we will create a docker named volume and it will be mounted to the container to a specific path
+-> by doing this data will be replicated on both sides, on the container and on the host.
+-> if the container is lost or removed by mistake, we can still retrieve the data by mounting the docker named volume in a new container.
+
+> docker run -it --name cool_ubuntu -v mydata:/tmp ubuntu
+># cd /tmp
+># echo hello > hello.txt
+># exit
+> docker container rm -f cool_ubuntu
+> docker volume ls
+> docker run -it --name cool_ubuntu -v mydata:/tmp ubuntu
+># cat /tmp/hello.txt
+
+to find the file name in while volume
+=> find / -iname hello.txt 2> /dev/null
+
+--------------------------------------------------------------------------------------------------------------
+
 
 
 
